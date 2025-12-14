@@ -49,7 +49,7 @@ function draw() {
 
   // 음악에 맞춰서 중앙에 원이 음악이 커질 수록 별 모양이 되는 느낌
   push();
-  translate(centerX, centerY);
+  translate(width/2, height/2);
   noFill();
   stroke(0, 255, 220);
   strokeWeight(2);
@@ -59,7 +59,7 @@ function draw() {
     // 원일 때 반지름
     let r1 = baseRadius;
     // 반지름이 음악이 커질 수록 튀어나오게 설정
-    let becomeStar = sin(a * 5) * mapped * 80;
+    let becomeStar = sin(a * 5 - HALF_PI - 20) * mapped * 80;
 
     let r = r1 + becomeStar;
 
