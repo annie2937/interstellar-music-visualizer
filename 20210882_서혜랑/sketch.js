@@ -4,7 +4,7 @@
 
 let firststep;
 
-// 음악 재생/중지 별 모양 버튼을 위한 변수 선언
+// 오른쪽 하단에 있는 음악 재생/일시정지 별 모양 버튼을 위한 변수 선언
 let starX;
 let starY;
 let starSize = 40;
@@ -32,6 +32,7 @@ function draw() {
   }
   noStroke();
   drawStar(starX, starY, starSize * 0.4, starSize, 5);
+  drawIcon();
 }
 
 // 별 모양 만드는 함수 선언
@@ -47,11 +48,28 @@ function drawStar(x, y, r1, r2, n) {
   endShape(CLOSE);
 }
 
+function drawIcon() {
+  fill(0);
+  noStroke();
+
+  if (firststep.isPlaying()) {
+    // 일시정지 아이콘
+    rect(starX - 6, starY - 10, 4, 20);
+    rect(starX + 2, starY - 10, 4, 20);
+  } else {
+    // 재생 아이콘
+    triangle(
+      starX - 5, starY - 10,
+      starX - 5, starY + 10,
+      starX + 8, starY
+    );
+  }
+}
 
 function mousePressed() {
   let d = dist(mouseX, mouseY, starX, starY);
 
-  // 별을 클릭했을 때 음악이 재생 또는 정지
+  // 별 버튼 클릭 시 음악 재생 및 일시정지
   if (d < starSize) {
     if (!firststep.isPlaying()) {
       firststep.loop();
