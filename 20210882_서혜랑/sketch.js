@@ -4,10 +4,15 @@
 
 let firststep;
 
+let amp;
+
 // 오른쪽 하단에 있는 음악 재생/일시정지 별 모양 버튼을 위한 변수 선언
 let starX;
 let starY;
 let starSize = 40;
+
+let centerX, centerY;
+let baseRadius = 120;
 
 function preload(){
   firststep = loadSound('FirstStep.mp3'); // 인터스텔라 사운드 트랙인 first step 음원 로드
@@ -19,6 +24,9 @@ function setup() {
 
   starX = width - 80;
   starY = height - 80;
+
+  //P5.sound 음량 분석 객체 생성
+  amp = new p5.Amplitude();
 }
 
 function draw() {
@@ -33,6 +41,34 @@ function draw() {
   noStroke();
   drawStar(starX, starY, starSize * 0.4, starSize, 5);
   drawIcon();
+
+  // 음악에서 볼륨을 얻어내는 getLevel() 사용
+  let level = amp.getLevel();
+  // 음량을 보기 좋은 값으로 조절하는 코드
+  let mapped = map(level, 0, 0.3, 0, 1, true);
+
+  // 음악에 맞춰서 중앙에 원이 음악이 커질 수록 별 모양이 되는 느낌
+  push();
+  translate(centerX, centerY);
+  noFill();
+  stroke(0, 255, 220);
+  strokeWeight(2);
+
+  beginShape();
+  for (let a = 0; a < TWO_PI; a += 0.1) {
+    // 원일 때 반지름
+    let r1 = baseRadius;
+    // 반지름이 음악이 커질 수록 튀어나오게 설정
+    let becomeStar = sin(a * 5) * mapped * 80;
+
+    let r = r1 + becomeStar;
+
+    let x = r * cos(a);
+    let y = r * sin(a);
+    vertex(x, y);
+  }
+  endShape(CLOSE);
+  pop();
 }
 
 // 별 모양 만드는 함수 선언
