@@ -137,7 +137,7 @@ class StarParticle {
     this.vx = cos(angle) * speed;
     this.vy = sin(angle) * speed;
 
-    this.size = map(volume, 0, 1, 4, 14);
+    this.size = map(volume, 0, 1, 4, 24);
     this.alpha = 255;
 
     this.rotation = random(TWO_PI);
